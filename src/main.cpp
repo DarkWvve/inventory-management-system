@@ -3,9 +3,10 @@
 
 int main()
 {
-  Database::db_open();
+  Database db("./db/warehouse.db");
+  db.open();
 
 
-
+  db.close();
   return 0;
 }

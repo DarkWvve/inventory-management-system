@@ -11,7 +11,6 @@ add_executable(inventory_management_system
         src/main.cpp
 
         src/db/database.cpp
-        src/db/database.h
 )
 
 target_link_libraries(inventory_management_system PRIVATE SQLite3::SQLite3)

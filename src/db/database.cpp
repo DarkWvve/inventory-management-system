@@ -5,26 +5,29 @@
 #include <ostream>
 
 Database::Database(const char *path) : path(std::move(path)) {}
-Database::~Database() { db_close(); }
+Database::~Database() { close(); }
 
-bool Database::db_open ()
+bool Database::open ()
 {
   if (db!=nullptr) return true;
 
-  const int rc = sqlite3_open(path.c_str(), &db);
+  const int rc = sqlite3_open(path, &db);
 
   if (rc != SQLITE_OK)
   {
     std::cerr << "Failed to open database: " << sqlite3_errmsg(db) << '\n';
-    db_close();
+    close();
     return false;
+  }else
+  {
+    puts("database opened!");
   }
 
   return true;
 }
 
 
-void Database::db_close()
+void Database::close()
 {
   if (db!=nullptr)
   {

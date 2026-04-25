@@ -7,7 +7,7 @@
 class Database
 {
 private:
-  const char *path = "./db/warehouse.db";
+  const char *path;
 
   sqlite3 *db = nullptr;
 
@@ -15,12 +15,13 @@ public:
   explicit Database(const char *path);
   ~Database();
 
-  const Database &operator=(const Database &) = delete;
+  Database(const Database &) = delete;
   Database &operator=(const Database &) = delete;
 
-  bool db_open();
-  void db_close();
+  bool open();
+  void close();
 
+  [[nodiscard]]
   sqlite3 *get() const;
 };
 
