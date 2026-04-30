@@ -2,17 +2,17 @@
 #define DATABASE_H
 
 #include <sqlite3.h>
-
+#include <string>
 
 class Database
 {
 private:
-  const char *path;
+  std::string path;
 
   sqlite3 *db = nullptr;
 
 public:
-  explicit Database(const char *path);
+  explicit Database(std::string path);
   ~Database();
 
   Database(const Database &) = delete;
@@ -20,6 +20,7 @@ public:
 
   bool open();
   void close();
+
 
   [[nodiscard]]
   sqlite3 *get() const;

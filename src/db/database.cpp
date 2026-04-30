@@ -2,16 +2,16 @@
 
 #include <algorithm>
 #include <iostream>
-#include <ostream>
 
-Database::Database(const char *path) : path(std::move(path)) {}
+
+Database::Database(std::string path) : path(std::move(path)) {}
 Database::~Database() { close(); }
 
 bool Database::open ()
 {
   if (db!=nullptr) return true;
 
-  const int rc = sqlite3_open(path, &db);
+  const int rc = sqlite3_open(path.c_str(), &db);
 
   if (rc != SQLITE_OK)
   {
@@ -35,6 +35,7 @@ void Database::close()
     db = nullptr;
   }
 }
+
 
 sqlite3 *Database::get() const
 {
