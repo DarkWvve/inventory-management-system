@@ -12,3 +12,5 @@ struct User
   int role_id{};
   bool is_active{true};
 };
+
+#endif
