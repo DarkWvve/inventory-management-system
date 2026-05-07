@@ -175,8 +175,8 @@ bool UserRepository::changeUserRole(int id, int role_id) const
 
 bool UserRepository::deleteUser(int id) const
 {
-  const char* sql = "UPDATE users SET is_active = 0 WHERE id = ?;";
-
+  const char* sql = "DELETE FROM users WHERE id = ?;";
+  
   sqlite3_stmt* stmt = nullptr;
 
   int rc = sqlite3_prepare_v2(db.get(), sql, -1, &stmt, nullptr);

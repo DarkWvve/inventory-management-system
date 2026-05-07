@@ -2,7 +2,9 @@
 #include "include/user_controller.h"
 
 
-UserController::UserController(UserService& us, ProductController& pc) : us(us), pc(pc) {}
+UserController::UserController(UserService& us, ProductController& pc,
+                               StockMovementController& smc, InventoryController& ic)
+  : us(us), pc(pc), smc(smc), ic(ic) {}
 
 void UserController::clearInput() const
 {
@@ -182,14 +184,29 @@ void UserController::ShowAdminPanel()
   {
     std::cout << "\n====== Admin panel ======\n";
     std::cout << "Hello, " << user->login << "!\n";
+    std::cout << "--- Users ---\n";
     std::cout << "1. Create user\n";
     std::cout << "2. Delete user\n";
     std::cout << "3. Change user role\n";
     std::cout << "4. Show users\n";
+    std::cout << "--- Products ---\n";
     std::cout << "5. Add product\n";
     std::cout << "6. Edit product\n";
     std::cout << "7. Delete product\n";
     std::cout << "8. Show all products\n";
+    std::cout << "--- Stock ---\n";
+    std::cout << "9. Add incoming movement\n";
+    std::cout << "10. Add outgoing movement\n";
+    std::cout << "11. Show all movements\n";
+    std::cout << "12. Show movements by product\n";
+    std::cout << "13. Show stock balance\n";
+    std::cout << "--- Inventory ---\n";
+    std::cout << "14. Create inventory check\n";
+    std::cout << "15. Add item to check\n";
+    std::cout << "16. Close check\n";
+    std::cout << "17. Cancel check\n";
+    std::cout << "18. Show all checks\n";
+    std::cout << "19. Show check items\n";
     std::cout << "0. Exit\n";
   };
 
@@ -252,6 +269,61 @@ void UserController::ShowAdminPanel()
       ConsoleUtils::WaitEnter();
       break;
 
+    case 9:
+      smc.AddIncoming(user->id);
+      ConsoleUtils::WaitEnter();
+      break;
+
+    case 10:
+      smc.AddOutgoing(user->id);
+      ConsoleUtils::WaitEnter();
+      break;
+
+    case 11:
+      smc.ShowAllMovements();
+      ConsoleUtils::WaitEnter();
+      break;
+
+    case 12:
+      smc.ShowMovementsByProduct();
+      ConsoleUtils::WaitEnter();
+      break;
+
+    case 13:
+      smc.ShowStockBalance();
+      ConsoleUtils::WaitEnter();
+      break;
+
+    case 14:
+      ic.CreateCheck(user->id);
+      ConsoleUtils::WaitEnter();
+      break;
+
+    case 15:
+      ic.AddItem();
+      ConsoleUtils::WaitEnter();
+      break;
+
+    case 16:
+      ic.CloseCheck();
+      ConsoleUtils::WaitEnter();
+      break;
+
+    case 17:
+      ic.CancelCheck();
+      ConsoleUtils::WaitEnter();
+      break;
+
+    case 18:
+      ic.ShowAllChecks();
+      ConsoleUtils::WaitEnter();
+      break;
+
+    case 19:
+      ic.ShowCheckItems();
+      ConsoleUtils::WaitEnter();
+      break;
+
     default:
       std::cerr << "Unknown command.\n";
       ConsoleUtils::WaitEnter();
@@ -274,10 +346,22 @@ void UserController::ShowManagerPanel()
   {
     std::cout << "\n====== Manager panel ======\n";
     if(user.has_value()) std::cout << "Hello, " << user->login << "!\n";
+    std::cout << "--- Products ---\n";
     std::cout << "1. Add product\n";
     std::cout << "2. Edit product\n";
     std::cout << "3. Delete product\n";
     std::cout << "4. Show all products\n";
+    std::cout << "--- Stock ---\n";
+    std::cout << "5. Add incoming movement\n";
+    std::cout << "6. Add outgoing movement\n";
+    std::cout << "7. Show all movements\n";
+    std::cout << "8. Show stock balance\n";
+    std::cout << "--- Inventory ---\n";
+    std::cout << "9. Create inventory check\n";
+    std::cout << "10. Add item to check\n";
+    std::cout << "11. Close check\n";
+    std::cout << "12. Show all checks\n";
+    std::cout << "13. Show check items\n";
     std::cout << "0. Exit\n";
   };
 
@@ -321,6 +405,51 @@ void UserController::ShowManagerPanel()
       ConsoleUtils::WaitEnter();
       break;
 
+    case 5:
+      if(user.has_value()) smc.AddIncoming(user->id);
+      ConsoleUtils::WaitEnter();
+      break;
+
+    case 6:
+      if(user.has_value()) smc.AddOutgoing(user->id);
+      ConsoleUtils::WaitEnter();
+      break;
+
+    case 7:
+      smc.ShowAllMovements();
+      ConsoleUtils::WaitEnter();
+      break;
+
+    case 8:
+      smc.ShowStockBalance();
+      ConsoleUtils::WaitEnter();
+      break;
+
+    case 9:
+      if(user.has_value()) ic.CreateCheck(user->id);
+      ConsoleUtils::WaitEnter();
+      break;
+
+    case 10:
+      ic.AddItem();
+      ConsoleUtils::WaitEnter();
+      break;
+
+    case 11:
+      ic.CloseCheck();
+      ConsoleUtils::WaitEnter();
+      break;
+
+    case 12:
+      ic.ShowAllChecks();
+      ConsoleUtils::WaitEnter();
+      break;
+
+    case 13:
+      ic.ShowCheckItems();
+      ConsoleUtils::WaitEnter();
+      break;
+
     default:
       std::cerr << "Unknown command.\n";
       ConsoleUtils::WaitEnter();
@@ -344,6 +473,8 @@ void UserController::ShowWorkerPanel()
     std::cout << "\n====== Worker panel ======\n";
     if(user.has_value()) std::cout << "Hello, " << user->login << "!\n";
     std::cout << "1. Show all products\n";
+    std::cout << "2. Show stock balance\n";
+    std::cout << "3. Show movements by product\n";
     std::cout << "0. Exit\n";
   };
 
@@ -369,6 +500,16 @@ void UserController::ShowWorkerPanel()
 
     case 1:
       pc.ShowAllProducts();
+      ConsoleUtils::WaitEnter();
+      break;
+
+    case 2:
+      smc.ShowStockBalance();
+      ConsoleUtils::WaitEnter();
+      break;
+
+    case 3:
+      smc.ShowMovementsByProduct();
       ConsoleUtils::WaitEnter();
       break;
 

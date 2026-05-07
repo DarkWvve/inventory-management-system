@@ -3,6 +3,8 @@
 
 #include "../../service/include/user_service.h"
 #include "product_controller.h"
+#include "stock_movement_controller.h"
+#include "inventory_controller.h"
 
 #include <stdint.h>
 #include <iostream>
@@ -15,11 +17,14 @@ class UserController
 private:
   UserService& us;
   ProductController& pc;
+  StockMovementController& smc;
+  InventoryController& ic;
 
   void clearInput() const;
 
 public:
-  explicit UserController(UserService& us, ProductController& pc);
+  explicit UserController(UserService& us, ProductController& pc,
+                          StockMovementController& smc, InventoryController& ic);
 
   void Start();
   void ShowAdminPanel();
