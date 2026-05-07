@@ -9,5 +9,7 @@ sqlite3 warehouse.db < seed.sql
 сборка
 
 cmake -S . -B build
+
 cmake --build build
+
 cd build ~из корня проекта
